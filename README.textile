@@ -2,7 +2,7 @@ h1. Assembler
 
 h3. Nick Breslin, Etiquette Studio
 
-E-Mail: "nick@nickbreslin.com":mailto:nickbreslin.com
+E-Mail: "nickbreslin@gmail.com":mailto:nickbreslin@gmail.com
 Twitter: "@EtiquetteStudio":http://twitter.com/#!/EtiquetteStudio
 Web Site: "nickbreslin.com":http://www.nickbreslin.com
 
