@@ -1,0 +1,17 @@
+h1. Assembler (featuring the Etiquette Framework)
+
+h3. Etiquette Studio's RESTful Web Framework
+
+h2. Development
+
+h3. Nick Breslin, Developer
+
+E-Mail: "nick@nickbreslin.com":mailto:nickbreslin.com
+Twitter: "@EtiquetteStudio":http://twitter.com/#!/EtiquetteStudio
+Web Site: "nickbreslin.com":http://www.nickbreslin.com
+
+h2. Setup
+
+h3. Settings File
+
+h3. Log File
