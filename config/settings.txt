@@ -1,0 +1,44 @@
+;=============================================================================
+[development]
+;=============================================================================
+
+
+;=============================================================================
+[production]
+;=============================================================================
+
+
+;=============================================================================
+[default]
+;=============================================================================
+facebook.app.id        =
+facebook.app.secret    =
+facebook.app.namespace =
+facebook.app.url       = 
+
+host.url = 
+host.api = 
+host.cdn = 
+
+environment            = development ; development | production
+maintenance            = false ; true | false
+
+administrators[]       =
+
+default_user.use = ; 0 | 1
+default_user.facebook_id =
+
+database.host     =
+database.name     =
+database.user     =
+database.password =
+
+log.enabled =  ; true | false
+
+debug.enabled =  ; true | false
+
+assembla.username =
+assembla.password =
+assembla.space    = 
+
+cache.version = 
