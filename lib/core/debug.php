@@ -41,10 +41,6 @@ class Debug
 	
 	static public function display()
 	{
-		Debug::info(array('llama'=>'steve'));
-		Debug::error('message');
-		Debug::warning('message');
-		Debug::success('message');
 		$html  = '
 		<div class="row-fluid">
 		<div class="span10">

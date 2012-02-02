@@ -12,6 +12,53 @@ class Assembla extends Abstract_Class
 	{
 	}
 	
+	public function mySpacesList()
+	{
+		
+		$url = "http://".config('assembla.username').":".config('assembla.password')."@www.assembla.com/spaces/my_spaces";
+		Debug::info($url);
+		/*
+		$ch = curl_init();
+		        curl_setopt($ch, CURLOPT_URL,$url);
+		
+		        curl_setopt($ch, CURLOPT_FAILONERROR,1);
+		        curl_setopt($ch, CURLOPT_FOLLOWLOCATION,1);
+		        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+		        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+				curl_setopt($ch, CURLOPT_HTTPHEADER, Array("Accept: application/xml")); 
+		
+		        $retValue = curl_exec($ch);                      
+		        curl_close($ch);
+	
+		//$oXML = new SimpleXMLElement($retValue);
+
+		//foreach($oXML->entry as $oEntry){
+		//       echo "Here";
+		//}
+		*/
+		
+		$retValue = Curl::fetch($url);
+		$a = simplexml_load_string($retValue);
+		if($a===FALSE) {
+		//It was not an XML string
+		Debug::error("Not XML");
+		} else {
+			$oXML = new SimpleXMLElement($retValue);
+			foreach($oXML->entry as $oEntry){
+			       echo "Here";
+			}
+			foreach($oXML as $oEntry){
+			       echo $oEntry->name;
+			}
+			
+		}
+	//	return $retValue;
+	}
+	
+	/*
+	
+	
+	
 	public function createTicket()
 	{
 		$url = "http://".config('assembla.username').":".config('assembla.password')."@www.assembla.com/spaces/".config('assembla.space')."/tickets/";
@@ -66,40 +113,6 @@ class Assembla extends Abstract_Class
 		exec($cmd, $output);
 		
 		return $output;
-	}
-	
-	private function _xml($url)
-	{
-		$ch = curl_init(); 
-		curl_setopt($ch, CURLOPT_URL, $url); 
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-		curl_setopt($ch, CURLOPT_USERPWD, config('assembla.username').":".config('assembla.password'));
-		$store = curl_exec($ch);
-		echo $store;
-		curl_close($ch);
-	}
-
-	private function _curl($url, $fields = false)
-	{    
-	    $ci = curl_init();
-
-	    curl_setopt($ci, CURLOPT_URL,            $url);
-	    curl_setopt($ci, CURLOPT_RETURNTRANSFER, true);
-	    curl_setopt($ci, CURLOPT_SSL_VERIFYPEER, false);
-	    curl_setopt($ci, CURLOPT_SSL_VERIFYHOST, false);
-	    curl_setopt($ci, CURLOPT_HEADER,         false);
-
-	    if($fields) {
-	        curl_setopt($ci,CURLOPT_POST,count($fields));
-	        curl_setopt($ci,CURLOPT_POSTFIELDS,$fields);
-	    }
-
-	    $response = curl_exec($ci);
-
-	    curl_close($ci);
-
-	    return $response;
-	}
-	
+	}	
+	*/
 }

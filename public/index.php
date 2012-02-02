@@ -7,6 +7,8 @@ define('ROOT_PATH', realpath(dirname(__FILE__) . '/../').'/');
 require ROOT_PATH.'lib/boot/bootstrap.php';
 
 $theme[] = "base";
+$assembla = new Assembla();
+
 ?>
 <html>
 	<head>
@@ -29,13 +31,13 @@ $theme[] = "base";
 	</head>
 	<body>
 		<h1>Assembler<span style='font-size:50%'> for Assembla</span></h1>
-		
+<!--		
 		<div class="progress progress-danger
 		     progress-striped active">
 		  <div class="bar"
 		       style="width: 100%;"></div>
 		</div>
-		
+	-->	
 		<!--<li><a onclick="Notifier.success('Hi!', 'Welcome.')">Success with title</a></li>-->
 		<!-- success, info, warning, error-->
 		
@@ -48,6 +50,7 @@ $theme[] = "base";
 		    <div class="span8 main well">
 		      <!--Body content-->
 				Body.
+				<?php echo $assembla->mySpacesList(); ?>
 		    </div>
 		</div>
 			<?php echo Debug::display(); ?>

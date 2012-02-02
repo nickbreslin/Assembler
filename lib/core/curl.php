@@ -1,6 +1,6 @@
 <?php
 //client URL
-class Curl
+class Curl extends Abstract_Class
 {	
     function __construct()
     {
@@ -10,24 +10,23 @@ class Curl
 
 	private function _init()
 	{
-		$this->_requireCurl();
+		if(!function_exists('curl_init'))
+		{
+			Debug::error("No Curl Installed!");
+		}
 	}
 	
-	function _iscurlinstalled()
-	{
-		return function_exists('curl_init');
-	}
-	
-	private function _xml($url)
+	private function xml($url)
 	{
 		$ch = curl_init(); 
 		curl_setopt($ch, CURLOPT_URL, $url); 
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		curl_setopt($ch, CURLOPT_USERPWD, config('assembla.username').":".config('assembla.password'));
-		$store = curl_exec($ch);
-		echo $store;
+		$results = curl_exec($ch);
 		curl_close($ch);
+		
+		return $results;
 	}
 
 	private function curl($url, $fields = false)
@@ -40,7 +39,7 @@ class Curl
 	    //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	    //curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 	    curl_setopt($ch, CURLOPT_HEADER,         false); // Include the header info
-
+		curl_setopt($ch, CURLOPT_HTTPHEADER, Array("Accept: application/xml")); 
 		// Used for POST, instead of GET
 	    if(!empty($fields))
 		{
@@ -59,7 +58,7 @@ class Curl
 	{
 		if(empty($url))
 		{
-			//todo - log error
+			Debug::error("Missing Url for Curl");
 			return false;
 		}
 		
@@ -67,6 +66,5 @@ class Curl
 		$results = $curl->curl($url, $fields);
 		
 		return $results;
-	}
-	
+	}	
 }

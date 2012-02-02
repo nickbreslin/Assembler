@@ -96,18 +96,8 @@ require ROOT_PATH . 'lib/core/data.php';
 require ROOT_PATH . 'lib/core/database.php';
 require ROOT_PATH . 'lib/core/response.php';
 
-//require ROOT_PATH . 'lib/model/user.php';
-//require ROOT_PATH . 'lib/model/app/story.php';
-//require ROOT_PATH . 'lib/model/app/stats.php';
-//require ROOT_PATH . 'lib/model/app/questions.php'; // todo - data
-//require ROOT_PATH . 'lib/model/app/answer.php';
 
-
-//require ROOT_PATH . 'lib/boot/canvas.php';
-//require ROOT_PATH . 'lib/boot/facebook_auth.php';
-
-//require ROOT_PATH . 'lib/logic/fql.php';
-
+require ROOT_PATH . 'lib/rest/assembla.php';
 
 $response = new Response();
 
