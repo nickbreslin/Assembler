@@ -1,9 +1,5 @@
 h1. Assembler
 
-h2. Development
-
-Built on Etiquette's RESTful Framework
-
 h3. Nick Breslin, Etiquette Studio
 
 E-Mail: "nick@nickbreslin.com":mailto:nickbreslin.com
