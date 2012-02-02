@@ -1,0 +1,45 @@
+body {
+  padding: 2% 5%;
+  font: 16px "Droid Sans", sans-serif;
+  background: #eee;
+}
+
+.debug {
+    padding: 0.2em;
+}
+
+.debug-error {
+    background-color: #FF9999;
+    border: 1px solid #FF2727;
+}
+
+.debug-warning {
+    background-color: #FFFFCC;
+    border: 1px solid #FDFF55;
+}
+
+.debug-message {
+    background-color: #70ADFF;
+    border: 1px solid #38ADFF;
+}
+
+.debug-response {
+    background-color: #A0E1A0;
+    border: 1px solid #00E100;
+}
+
+
+.sidebar {
+    background-color: #ccc;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+}
+
+.main {
+    background-color: #ccc;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+}
+    
