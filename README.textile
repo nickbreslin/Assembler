@@ -1,5 +1,7 @@
 h1. Assembler
 
+A unified dashboard for Assembla Spaces.
+
 h3. Nick Breslin, Etiquette Studio
 
 E-Mail: "nickbreslin@gmail.com":mailto:nickbreslin@gmail.com
