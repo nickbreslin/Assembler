@@ -35,7 +35,7 @@ class Database extends Abstract_Class
 	
 	public function debug()
 	{
-		Debug::dump($this->_mysql);
+		Debug::info($this->_mysql);
 	}
 	
 	public function isConnected()

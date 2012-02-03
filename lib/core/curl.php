@@ -18,6 +18,7 @@ class Curl extends Abstract_Class
 	
 	private function xml($url)
 	{
+		/*
 		$ch = curl_init(); 
 		curl_setopt($ch, CURLOPT_URL, $url); 
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -27,10 +28,7 @@ class Curl extends Abstract_Class
 		curl_close($ch);
 		
 		return $results;
-	}
-
-	private function curl($url, $fields = false)
-	{    
+		*/
 		//$ch - cURL Handle
 	    $ch = curl_init();
 
@@ -53,8 +51,32 @@ class Curl extends Abstract_Class
 
 	    return $results;
 	}
+
+	private function curl($url, $fields = false)
+	{    
+		//$ch - cURL Handle
+	    $ch = curl_init();
+
+	    curl_setopt($ch, CURLOPT_URL,            $url);		// URL to Scrape
+	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);	// Return string from curl_exec
+	    //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	    //curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+	    curl_setopt($ch, CURLOPT_HEADER,         false); // Include the header info
+		// Used for POST, instead of GET
+	    if(!empty($fields))
+		{
+	        curl_setopt($ch,CURLOPT_POST,count($fields)); // HTTP Post
+	        curl_setopt($ch,CURLOPT_POSTFIELDS,$fields); // When posting a file, add @ with full path, otherwise as array
+	    }
+
+	    $results = curl_exec($ch);
+
+	    curl_close($ch);
+
+	    return $results;
+	}
 	
-	static public function fetch($url, $fields = false)
+	static public function fetch($url, $xml = false, $fields = false)
 	{
 		if(empty($url))
 		{
@@ -63,7 +85,15 @@ class Curl extends Abstract_Class
 		}
 		
 		$curl    = new self();
-		$results = $curl->curl($url, $fields);
+		
+		if($xml)
+		{
+			$results = $curl->xml($url, $fields);
+		}
+		else
+		{
+			$results = $curl->curl($url, $fields);
+		}
 		
 		return $results;
 	}	

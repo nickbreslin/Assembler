@@ -43,7 +43,6 @@ function setParams($newParams)
 {
     if (is_array($newParams))
     {
-        Debug::dump($newParams);
         global $params;
         $params = array_merge($params, $newParams);
     }
@@ -57,7 +56,7 @@ function setParams($newParams)
 if (!file_exists(SETTINGS_FILE))
 {
 	echo "no settings";
-	Debug::Error("No Settings File Found");
+	Debug::error("No Settings File Found");
 	exit();
 }
 

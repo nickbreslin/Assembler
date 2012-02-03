@@ -8,11 +8,20 @@ require ROOT_PATH.'lib/boot/bootstrap.php';
 
 $theme[] = "base";
 $assembla = new Assembla();
-$spaces = $assembla->mySpacesList());
-$assembla->getTickets($spaces[0]['id']);
+$spaces = $assembla->mySpacesList();
+foreach($spaces as $space)
+{
+	$tickets = $assembla->getUsers($space['id']);
+	Debug::info(count($tickets));
+break;
+}
+//$assembla->getUser('cIQZpQ_Ner4l_XacwqjQXA');
 ?>
 <html>
 	<head>
+		<title>Assembler</title>
+		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="/favicon.ico" type="image/x-icon">
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
 		

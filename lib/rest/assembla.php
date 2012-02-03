@@ -18,13 +18,14 @@ class Assembla extends Abstract_Class
 	
 	public function fetchXML($url)
 	{
-		$results = Curl::fetch($url);
-
+		$results = Curl::fetch($url, true);
+		
 		$string = simplexml_load_string($results);
 		
 		if ($string===FALSE)
 		{
 			Debug::error("Not XML");
+			return false;
 		}
 		else
 		{
@@ -37,9 +38,14 @@ class Assembla extends Abstract_Class
 	// http://www.assembla.com/wiki/show/breakoutdocs/Space_REST_API
 	public function mySpacesList()
 	{
-		$url = self::$base."/spaces/my_spaces";
-		
+		$url = self::$base."/spaces/my_spaces/";
+
 		$results = self::fetchXML($url);
+		
+		if(!$results)
+		{
+			return array();
+		}
 		
 		$return = array();
 		
@@ -60,9 +66,97 @@ class Assembla extends Abstract_Class
 	// http://www.assembla.com/spaces/breakoutdocs/wiki/Ticket_REST_API	
 	public function getTickets($spaceId)
 	{
-		$url = self::$base."/$spaceId/tickets";
-		
+		// active by milestone
+		$url = self::$base."/spaces/$spaceId/tickets/report/1";
 		$results = self::fetchXML($url);
+		
+		if(!$results)
+		{
+			return array();
+		}
+		
+		$return = array();
+		
+		foreach($results as $result)
+		{
+			$data                  = array();
+			$data['id']            = $result->{'id'};
+			$data['number']        = $result->{'number'};
+			$data['priority']      = $result->{'priority'};
+			$data['status']        = $result->{'status'};
+			$data['assigned-to-id']  = $result->{'assigned-to-id'};
+			$data['milestone-id']  = $result->{'milestone-id'};
+			$data['working-hours'] = $result->{'working-hours'};
+			
+			if(!empty($data['assigned-to-id']))
+			Debug::info($data['assigned-to-id']);
+			$return[] = $data;
+		}
+
+		return $return;
+	}
+
+
+	// http://www.assembla.com/spaces/breakoutdocs/wiki/Milestone_REST_API
+	public function getMilestones($spaceId)
+	{
+		// active by milestone
+		$url = self::$base."/spaces/$spaceId/milestones";
+		$results = self::fetchXML($url);
+		
+		if(!$results)
+		{
+			return array();
+		}
+		
+		$return = array();
+		
+		foreach($results as $result)
+		{
+			$data                  = array();
+			$data['id']            = $result->{'id'};
+			$data['title']        = $result->{'title'};
+			$data['due-date']      = $result->{'due-date'};
+
+			$return[] = $data;
+		}
+
+		return $return;
+	}
+
+	// http://www.assembla.com/spaces/breakoutdocs/wiki/User_REST_API
+	public function getUser($userId)
+	{
+		// active by milestone
+		$url = "http://www.assembla.com/user/best_profile/$userId";
+		//$url = self::$base."/spaces/$spaceId/milestones";
+		$results = self::fetchXML($url);
+
+		if(!$results)
+		{
+			return array();
+		}
+		
+		
+		$data          = array();
+		$data['id']    = $result->{'id'};
+		$data['name']  = $result->{'name'};
+		$data['email'] = $result->{'email'};
+
+		return $data;
+	}
+	
+	// http://www.assembla.com/spaces/breakoutdocs/wiki/User_REST_API
+	public function getUsers($spaceId)
+	{
+		// active by milestone
+		$url = self::$base."/spaces/$spaceId/users";
+		$results = self::fetchXML($url);
+
+		if(!$results)
+		{
+			return array();
+		}
 		
 		$return = array();
 		
@@ -70,14 +164,14 @@ class Assembla extends Abstract_Class
 		{
 			$data          = array();
 			$data['id']    = $result->{'id'};
-			//$data['name']  = $result->{'name'};
-			//$data['space'] = $result->{'wiki-name'};
-			Debug::info($data['id']);
+			$data['name']  = $result->{'name'};
+			$data['email'] = $result->{'email'};
+			Debug::info($data['name']);
 			$return[] = $data;
 		}
 
 		return $return;
-	}	
+	}		
 	/*
 	
 	
