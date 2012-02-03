@@ -15,6 +15,127 @@ class Assembla extends Abstract_Class
 		self::$base = "http://".config('assembla.username').":".config('assembla.password')."@www.assembla.com";
 	}
 	
+	public function loadAllData($status, $timeframe, $group)
+	{
+		//Debug::info($status);
+	//	Debug::info($timeframe);
+		
+		$spaces = $this->getSpaces();
+		$projects = array();
+
+		$users = array();
+		$tickets = array();
+		$milestones = array();
+		$validMilestones = array();
+		$spaceholder = "";
+		foreach($spaces as $space)
+		{			
+			if($status == "all")
+			{
+				$projectTickets = $this->getAllTickets($space['id']);
+			}
+			else if($status == "open")
+			{
+				$projectTickets= $this->getOpenTickets($space['id']);
+			}
+			else if($status == "closed")
+			{
+				$projectTickets = $this->getClosedTickets($space['id']);
+			}
+			
+			$milestones = array_merge($milestones, $this->getMilestones($space['id']));
+			$users      = array_merge($users, $this->getUsers($space['id']));
+			$tickets    = array_merge($tickets, $projectTickets);
+			
+			$project['name'] = $space['name'];
+			$project['tickets'] = array();
+			$project['users'] = $users;
+			
+			$projects[(string)$space['id']] = $project;
+			$spaceholder = (string)$space['id'];
+		}
+		
+		// Timeframe
+		if($timeframe != "all-time")
+		{
+			$adjust = $timeframe == "next-week" ? "+1 week" : "";
+							
+			foreach($milestones as $milestone)
+			{
+				$dt = new DateTime($milestone['due-date']); 
+				$ts = $dt->getTimestamp();
+			
+				if(strtotime("last sunday $adjust") < $ts && strtotime("next sunday $adjust") > $ts)
+				{
+					$validMilestones[] = (int)$milestone['id'];
+				}
+			}
+		}
+		else
+		{
+			foreach($milestones as $milestone)
+			{
+				$validMilestones[] = (int)$milestone['id'];
+			}
+			//Debug::info($validMilestones);
+		}
+		
+		foreach($projects as &$project)
+		{
+			foreach($users as $user)
+			{
+				$project['tickets'][(string)$user['id']] = array();
+			}
+			$project['tickets']['unassigned'] = array();
+		}
+		
+		foreach($tickets as $ticket)
+		{
+			$tid = $group != 'user' ? (string)$ticket['space-id'] : $spaceholder;
+			if($timeframe != "all-time")
+			{
+				if($ticket['milestone-id'] == "")
+				{
+					continue;
+				}
+			
+				if(!in_array($ticket['milestone-id'], $validMilestones))
+				{
+					continue;
+				}
+			}
+
+			$id = $ticket['assigned-to-id'];
+			
+			$claimed = false;
+			foreach($users as $user)
+			{
+				if(!strcmp($id,$user['id']))
+				{
+					$claimed = true;
+					$projects[$tid]['tickets'][(string)$user['id']][] = $ticket;
+					break;
+				}
+			}
+			
+			if(!$claimed)
+			{
+				$projects[$tid]['tickets']['unassigned'][] = $ticket;
+			}	
+		}
+		
+		// Project
+		
+		// User
+			// User Tickets
+				// Title
+				// Priority
+		
+		//Debug::info($projects);
+		
+		return $projects;
+	}
+	
 	
 	public function fetchXML($url)
 	{
@@ -64,7 +185,7 @@ class Assembla extends Abstract_Class
 
 
 	// http://www.assembla.com/spaces/breakoutdocs/wiki/Ticket_REST_API	
-	public function getActiveTickets($spaceId)
+	public function getOpenTickets($spaceId)
 	{
 		// active by milestone
 		$url = self::$base."/spaces/$spaceId/tickets/report/1";
@@ -89,7 +210,7 @@ class Assembla extends Abstract_Class
 			$data['working-hours'] = $result->{'working-hours'};
 			$data['updated-at']    = $result->{'updated-at'};
 			$data['summary']    = $result->{'summary'};
-
+			$data['space-id']    = $result->{'space-id'};
 			$return[] = $data;
 		}
 
@@ -121,6 +242,8 @@ class Assembla extends Abstract_Class
 			$data['working-hours'] = $result->{'working-hours'};
 			$data['updated-at']    = $result->{'updated-at'};
 			$data['summary']    = $result->{'summary'};
+			$data['space-id']    = $result->{'space-id'};
+			
 
 			$return[] = $data;
 		}
@@ -154,6 +277,8 @@ class Assembla extends Abstract_Class
 			$data['working-hours'] = $result->{'working-hours'};
 			$data['updated-at']    = $result->{'updated-at'};
 			$data['summary']    = $result->{'summary'};
+			$data['space-id']    = $result->{'space-id'};
+			
 
 			$return[] = $data;
 		}
@@ -181,6 +306,7 @@ class Assembla extends Abstract_Class
 			$data['id']            = $result->{'id'};
 			$data['title']        = $result->{'title'};
 			$data['due-date']      = $result->{'due-date'};
+			$data['space-id']    = $result->{'space-id'};
 
 			$return[] = $data;
 		}
@@ -206,6 +332,7 @@ class Assembla extends Abstract_Class
 		$data['id']    = $result->{'id'};
 		$data['name']  = $result->{'name'};
 		$data['email'] = $result->{'email'};
+		$data['tickets'] = array();
 
 		return $data;
 	}
@@ -230,7 +357,8 @@ class Assembla extends Abstract_Class
 			$data['id']    = $result->{'id'};
 			$data['name']  = $result->{'name'};
 			$data['email'] = $result->{'email'};
-			Debug::info($data['name']);
+			$data['tickets'] = array();
+
 			$return[] = $data;
 		}
 

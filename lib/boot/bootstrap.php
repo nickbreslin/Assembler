@@ -52,6 +52,8 @@ function setParams($newParams)
     }
 }
 
+setParams($_REQUEST);
+
 
 if (!file_exists(SETTINGS_FILE))
 {

@@ -6,33 +6,17 @@
 define('ROOT_PATH', realpath(dirname(__FILE__) . '/../').'/');
 require ROOT_PATH.'lib/boot/bootstrap.php';
 
-$theme[] = "base";
-$assembla = new Assembla();
-$spaces = $assembla->getSpaces();
-$projects = array();
+$status    = getParam('status',    'open');
+$timeframe = getParam('timeframe', 'this-week');
+$group     = getParam('group',     'both');
 
-$sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : "all";
-foreach($spaces as $space)
-{
-	$project = array();
-	
-	//$project['users'] = $assembla->getUsers($space['id']);
-	if($sort == "all")
-	{
-		//$project['tickets'] = $assembla->getAllTickets($space['id']);
-	}
-	else if($sort == "active")
-	{
-		//$project['tickets'] = $assembla->getActiveTickets($space['id']);
-	}
-	else if($sort == "closed")
-	{
-		//$project['tickets'] = $assembla->getClosedTickets($space['id']);
-	}
-	$project['space'] = $space;
-	//$project['milestones'] = $assembla->getMilestones($space['id']);
-	$projects[] = $project;
-}
+$urlStatus    = "&status=$status";
+$urlTimeframe = "&timeframe=$timeframe";
+$urlGroup     = "&group=$group";
+
+$assembla = new Assembla();
+$projects = $assembla->loadAllData($status, $timeframe, $group);
+
 ?>
 <html>
 	<head>
@@ -53,6 +37,7 @@ foreach($spaces as $space)
 		<script type="text/javascript" src="/js/bootstrap-tooltip.js"></script>
 		<!-- overrides -->
 		<link rel="stylesheet" href="/css/style.css" type="text/css" charset="utf-8"/>
+		<script type="text/javascript" src="/js/script.js"></script>
 		
 		<!-- map -->
 		
@@ -61,19 +46,32 @@ foreach($spaces as $space)
 		<div class="container-fluid">
 		<h1>Assembler<span style='font-size:50%'> for Assembla</span></h1>
 		  <div class="row-fluid">
-		    <div class="span2 sidebar well">
+			<div class="span2">
+		    <div class="sidebar well">
 		      <!--Sidebar content-->
+		<h3>Tickets</h3>
 			<ul class="nav nav-pills nav-stacked">
-				<li <?php if($sort=="all") { ?>class="active"<? } ?> >
-				    <a href="?sort=all">All</a>
-				  </li>
-				  <li <?php if($sort=="active") { ?>class="active"<? } ?>><a href="?sort=active">Open</a></li>
-				  <li <?php if($sort=="closed") { ?>class="active"<? } ?>><a href="?sort=closed">Closed</a></li>
+				<li <?php if($status=="all")   { ?>class="active"<? } ?>><a href="?status=all<?php echo $urlTimeframe.$urlGroup; ?>">All</a></li>
+				<li <?php if($status=="open") { ?>class="active"<? } ?>><a href="?status=open<?php echo $urlTimeframe.$urlGroup; ?>">Open</a></li>
+				<li <?php if($status=="closed") { ?>class="active"<? } ?>><a href="?status=closed<?php echo $urlTimeframe.$urlGroup; ?>">Closed</a></li>
 			</ul>
-			<h4>Split</h4>
-			<p><input type="checkbox" id="split-by-project" value="1">&nbsp;By Project</p>
-			<p><input type="checkbox" id="split-by-assignment" value="1">&nbsp;By Assignment</p>
-		    </div>
+			<hr>
+			<h3>Timeframe</h3>
+			<ul class="nav nav-pills nav-stacked">
+				<li <?php if($timeframe=="all-time")  { ?>class="active"<? } ?>><a href="?timeframe=all-time<?php echo $urlStatus.$urlGroup; ?>">All Time</a></li>
+				<li <?php if($timeframe=="this-week") { ?>class="active"<? } ?>><a href="?timeframe=this-week<?php echo $urlStatus.$urlGroup; ?>">This Week</a></li>
+				<li <?php if($timeframe=="next-week") { ?>class="active"<? } ?>><a href="?timeframe=next-week<?php echo $urlStatus.$urlGroup; ?>">Next Week</a></li>
+			</ul>
+			<hr>
+			
+			<h3>Group By</h3>
+		    <ul class="nav nav-pills nav-stacked">
+				<li <?php if($group=="user")   { ?>class="active"<? } ?>><a href="?group=user<?php echo $urlTimeframe.$urlStatus; ?>">User</a></li>
+				<li <?php if($group=="project") { ?>class="active"<? } ?>><a href="?group=project<?php echo $urlTimeframe.$urlStatus; ?>">Project</a></li>
+				<li <?php if($group=="both") { ?>class="active"<? } ?>><a href="?group=both<?php echo $urlTimeframe.$urlStatus; ?>">Both</a></li>
+			</ul>
+		</div>&nbsp;
+				</div>
 		    <div class="span8 main well">
 			<div id='loading-announcement'>
 				<h2>Loading...</h2>
@@ -85,45 +83,54 @@ foreach($spaces as $space)
 				<h3>Retrieving Projects, Milestones, Tickets and Users</h3>
 			</div>
 		      <!--Body content-->
-				<?php /*
-				$startTs = 0;
-				$endTs = 0;
+				<?php
 				foreach($projects as $project)
 				{
-					echo "<h2>".$project['space']['name']."</h2>";
-					if(isset($project['tickets']))
+					if($group != "user")
 					{
-						foreach($project['tickets'] as $ticket)
+						echo "<br><br><h3>".$project['name']."</h3>";
+					}
+
+					foreach($project['tickets'] as $userId => $tickets)
+					{
+						if(count($tickets) == 0)
+							continue;
+							
+						$username = "Unassigned";
+						foreach($project['users'] as $user)
 						{
-							//Debug::info(
-							$dt = new DateTime($ticket['updated-at']); 
-							$ts = $dt->getTimestamp();
-							
-							if(strtotime("last sunday -1 week ") > $ts || strtotime("next sunday -1 week") < $ts)
+							if($user['id'] == $userId)
 							{
-								continue;
+								$username = $user['name'];
+								break;
 							}
-							
-							if($startTs == 0 || $ts < $startTs) { $startTs = $ts; }
-							if($endTs == 0 || $ts > $endTs) { $endTs = $ts; }
+						}
+						
+						if($group != "project")
+						{
+							echo "<hr><h4>".$username."</h4>";
+						}
+						
+						foreach($tickets as $ticket)
+						{
 							$label = '';
-							if($ticket['priority'] == 1)
+							if((int)$ticket['priority'] == 1)
 							{
 								$label = '-danger';
 							}
-							else if($ticket['priority'] == 2)
+							else if((int)$ticket['priority'] == 2)
 							{
 								$label = '-warning';
 							}
-							else if($ticket['priority'] == 3)
+							else if((int)$ticket['priority'] == 3)
 							{
 								$label = '-success';
 							}
-							else if($ticket['priority'] == 4)
+							else if((int)$ticket['priority'] == 4)
 							{
 								$label = '-info';
 							}
-							else if($ticket['priority'] == 5)
+							else if((int)$ticket['priority'] == 5)
 							{
 								$label = '-primary';
 							}
@@ -132,8 +139,7 @@ foreach($spaces as $space)
 						}
 					}
 				}
-				echo "<br/><br/><p>From ".date("Y-m-d", $startTs)." to ".date("Y-m-d", $endTs).".</p>";
-				*/
+
 				?>
 				
 		    </div>
@@ -141,6 +147,18 @@ foreach($spaces as $space)
 			<?php if(isset($_REQUEST['debug'])) { echo Debug::display();} ?>
 		</div>
 		<a href="http://github.com/nickbreslin/Assembler"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/7afbc8b248c68eb468279e8c17986ad46549fb71/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"></a>
-	<script type="text/javascript" src="/js/script.js"></script>
+        <div id="myModal" class="modal hide fade">
+          <div class="modal-header">
+            <h2>Loading...</h2>
+          </div>
+          <div class="modal-body">
+				<div class="progress progress-success
+				     progress-striped active">
+				  <div class="bar"
+				       style="width: 100%;"></div>
+				</div>
+				<h3>Retrieving Projects, Milestones, Tickets and Users</h3>
+        </div>
+<div class="modal-footer">Please be patient, do not interrupt the loading...</div>
 	</body>
 </html>
