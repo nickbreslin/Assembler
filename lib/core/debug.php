@@ -44,14 +44,7 @@ class Debug
 		$html  = '
 		<div class="row-fluid">
 		<div class="span10">
-		<h3>Debug</h3>
 		<table class="table">
-		  <thead>
-		    <tr>
-		      <th style="width:100px">Type</th>
-		      <th>Message</th>
-		    </tr>
-		  </thead>
 		  <tbody>
 		';
 		foreach( Debug::$messages as $msg)

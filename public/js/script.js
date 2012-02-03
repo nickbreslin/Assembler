@@ -1,5 +1,5 @@
 $(function() {
-	 $('.main').tooltip({
-           selector: "i[rel=tooltip]"
-         })
+    $('.main').tooltip({
+        selector: "i[rel=tooltip]"
+    })
 });

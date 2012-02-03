@@ -44,8 +44,12 @@ body {
 }
 
 .cubit {
-    border-top: 1px solid black;
-    border-bottom: 1px solid #ccc;
-    border-left: 1px solid black;
-    border-right: 1px solid #ccc;
+    border-top: 1px solid #666;
+    border-bottom: 1px solid black;
+    border-left: 1px solid #666;
+    border-right: 1px solid black;
+}
+
+#loading-announcement {
+    text-align:center;
 }

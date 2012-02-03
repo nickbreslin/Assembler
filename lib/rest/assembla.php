@@ -36,7 +36,7 @@ class Assembla extends Abstract_Class
 	}
 	
 	// http://www.assembla.com/wiki/show/breakoutdocs/Space_REST_API
-	public function mySpacesList()
+	public function getSpaces()
 	{
 		$url = self::$base."/spaces/my_spaces/";
 

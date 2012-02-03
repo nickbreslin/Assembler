@@ -8,7 +8,7 @@ require ROOT_PATH.'lib/boot/bootstrap.php';
 
 $theme[] = "base";
 $assembla = new Assembla();
-$spaces = $assembla->mySpacesList();
+$spaces = $assembla->getSpaces();
 $projects = array();
 
 $sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : "all";
@@ -19,16 +19,17 @@ foreach($spaces as $space)
 	//$project['users'] = $assembla->getUsers($space['id']);
 	if($sort == "all")
 	{
-		$project['tickets'] = $assembla->getAllTickets($space['id']);
+		//$project['tickets'] = $assembla->getAllTickets($space['id']);
 	}
 	else if($sort == "active")
 	{
-		$project['tickets'] = $assembla->getActiveTickets($space['id']);
+		//$project['tickets'] = $assembla->getActiveTickets($space['id']);
 	}
 	else if($sort == "closed")
 	{
-		$project['tickets'] = $assembla->getClosedTickets($space['id']);
+		//$project['tickets'] = $assembla->getClosedTickets($space['id']);
 	}
+	$project['space'] = $space;
 	//$project['milestones'] = $assembla->getMilestones($space['id']);
 	$projects[] = $project;
 }
@@ -55,20 +56,9 @@ foreach($spaces as $space)
 		<!-- map -->
 		<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700|Droid+Serif:400,700' rel='stylesheet' type='text/css'>
 	</head>
-	<body>
-		<h1>Assembler<span style='font-size:50%'> for Assembla</span></h1>
-		
-<!--		
-		<div class="progress progress-danger
-		     progress-striped active">
-		  <div class="bar"
-		       style="width: 100%;"></div>
-		</div>
-	-->	
-		<!--<li><a onclick="Notifier.success('Hi!', 'Welcome.')">Success with title</a></li>-->
-		<!-- success, info, warning, error-->
-		
+	<body>		
 		<div class="container-fluid">
+		<h1>Assembler<span style='font-size:50%'> for Assembla</span></h1>
 		  <div class="row-fluid">
 		    <div class="span2 sidebar well">
 		      <!--Sidebar content-->
@@ -78,22 +68,38 @@ foreach($spaces as $space)
 				  </li>
 				  <li <?php if($sort=="active") { ?>class="active"<? } ?>><a href="?sort=active">Open</a></li>
 				  <li <?php if($sort=="closed") { ?>class="active"<? } ?>><a href="?sort=closed">Closed</a></li>
-			</ul>
+			</ul>			
 		    </div>
-		    <div class="span8 main well"><a href="#" rel="tooltip" data-original-title="first tooltip">you probably</a>
+		    <div class="span8 main well">
+			<div id='loading-announcement'>
+				<h2>Loading...</h2>
+				<div class="progress progress-success
+				     progress-striped active">
+				  <div class="bar"
+				       style="width: 100%;"></div>
+				</div>
+				<h3>Retrieving Projects, Milestones, Tickets and Users</h3>
+			</div>
 		      <!--Body content-->
-				<?php
+				<?php /*
 				$startTs = 0;
 				$endTs = 0;
 				foreach($projects as $project)
 				{
+					echo "<h2>".$project['space']['name']."</h2>";
 					if(isset($project['tickets']))
 					{
 						foreach($project['tickets'] as $ticket)
 						{
+							//Debug::info(
 							$dt = new DateTime($ticket['updated-at']); 
 							$ts = $dt->getTimestamp();
-						
+							
+							if(strtotime("last sunday -1 week ") > $ts || strtotime("next sunday -1 week") < $ts)
+							{
+								continue;
+							}
+							
 							if($startTs == 0 || $ts < $startTs) { $startTs = $ts; }
 							if($endTs == 0 || $ts > $endTs) { $endTs = $ts; }
 							$label = '';
@@ -123,11 +129,12 @@ foreach($spaces as $space)
 					}
 				}
 				echo "<br/><br/><p>From ".date("Y-m-d", $startTs)." to ".date("Y-m-d", $endTs).".</p>";
+				*/
 				?>
 				
 		    </div>
 		</div>
-			<?php //echo Debug::display(); ?>
+			<?php if(isset($_REQUEST['debug'])) { echo Debug::display();} ?>
 		</div>
 		<a href="http://github.com/nickbreslin/Assembler"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/7afbc8b248c68eb468279e8c17986ad46549fb71/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"></a>
 	<script type="text/javascript" src="/js/script.js"></script>
