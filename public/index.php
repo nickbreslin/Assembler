@@ -8,7 +8,8 @@ require ROOT_PATH.'lib/boot/bootstrap.php';
 
 $theme[] = "base";
 $assembla = new Assembla();
-
+$spaces = $assembla->mySpacesList());
+$assembla->getTickets($spaces[0]['id']);
 ?>
 <html>
 	<head>
@@ -49,8 +50,7 @@ $assembla = new Assembla();
 		    </div>
 		    <div class="span8 main well">
 		      <!--Body content-->
-				Body.
-				<?php echo $assembla->mySpacesList(); ?>
+				<?php  ?>
 		    </div>
 		</div>
 			<?php echo Debug::display(); ?>

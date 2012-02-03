@@ -2,6 +2,8 @@
 
 class Assembla extends Abstract_Class
 {	
+	private static $base = "";
+	
     function __construct()
     {
 		parent::__construct();
@@ -10,51 +12,72 @@ class Assembla extends Abstract_Class
 
 	private function _init()
 	{
+		self::$base = "http://".config('assembla.username').":".config('assembla.password')."@www.assembla.com";
 	}
 	
+	
+	public function fetchXML($url)
+	{
+		$results = Curl::fetch($url);
+
+		$string = simplexml_load_string($results);
+		
+		if ($string===FALSE)
+		{
+			Debug::error("Not XML");
+		}
+		else
+		{
+			$oXML = new SimpleXMLElement($results);
+			
+			return $oXML;
+		}
+	}
+	
+	// http://www.assembla.com/wiki/show/breakoutdocs/Space_REST_API
 	public function mySpacesList()
 	{
+		$url = self::$base."/spaces/my_spaces";
 		
-		$url = "http://".config('assembla.username').":".config('assembla.password')."@www.assembla.com/spaces/my_spaces";
-		Debug::info($url);
-		/*
-		$ch = curl_init();
-		        curl_setopt($ch, CURLOPT_URL,$url);
+		$results = self::fetchXML($url);
 		
-		        curl_setopt($ch, CURLOPT_FAILONERROR,1);
-		        curl_setopt($ch, CURLOPT_FOLLOWLOCATION,1);
-		        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-		        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
-				curl_setopt($ch, CURLOPT_HTTPHEADER, Array("Accept: application/xml")); 
+		$return = array();
 		
-		        $retValue = curl_exec($ch);                      
-		        curl_close($ch);
-	
-		//$oXML = new SimpleXMLElement($retValue);
-
-		//foreach($oXML->entry as $oEntry){
-		//       echo "Here";
-		//}
-		*/
-		
-		$retValue = Curl::fetch($url);
-		$a = simplexml_load_string($retValue);
-		if($a===FALSE) {
-		//It was not an XML string
-		Debug::error("Not XML");
-		} else {
-			$oXML = new SimpleXMLElement($retValue);
-			foreach($oXML->entry as $oEntry){
-			       echo "Here";
-			}
-			foreach($oXML as $oEntry){
-			       echo $oEntry->name;
-			}
+		foreach($results as $result)
+		{
+			$data          = array();
+			$data['id']    = $result->{'id'};
+			$data['name']  = $result->{'name'};
+			$data['space'] = $result->{'wiki-name'};
 			
+			$return[] = $data;
 		}
-	//	return $retValue;
+
+		return $return;
 	}
-	
+
+
+	// http://www.assembla.com/spaces/breakoutdocs/wiki/Ticket_REST_API	
+	public function getTickets($spaceId)
+	{
+		$url = self::$base."/$spaceId/tickets";
+		
+		$results = self::fetchXML($url);
+		
+		$return = array();
+		
+		foreach($results as $result)
+		{
+			$data          = array();
+			$data['id']    = $result->{'id'};
+			//$data['name']  = $result->{'name'};
+			//$data['space'] = $result->{'wiki-name'};
+			Debug::info($data['id']);
+			$return[] = $data;
+		}
+
+		return $return;
+	}	
 	/*
 	
 	
