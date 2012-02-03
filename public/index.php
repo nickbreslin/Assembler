@@ -39,6 +39,7 @@ foreach($spaces as $space)
 		<title>Assembler</title>
 		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 		<link rel="icon" href="/favicon.ico" type="image/x-icon">
+		<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700|Droid+Serif:400,700' rel='stylesheet' type='text/css'>
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
 		
@@ -54,7 +55,7 @@ foreach($spaces as $space)
 		<link rel="stylesheet" href="/css/style.css" type="text/css" charset="utf-8"/>
 		
 		<!-- map -->
-		<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700|Droid+Serif:400,700' rel='stylesheet' type='text/css'>
+		
 	</head>
 	<body>		
 		<div class="container-fluid">
@@ -68,7 +69,10 @@ foreach($spaces as $space)
 				  </li>
 				  <li <?php if($sort=="active") { ?>class="active"<? } ?>><a href="?sort=active">Open</a></li>
 				  <li <?php if($sort=="closed") { ?>class="active"<? } ?>><a href="?sort=closed">Closed</a></li>
-			</ul>			
+			</ul>
+			<h4>Split</h4>
+			<p><input type="checkbox" id="split-by-project" value="1">&nbsp;By Project</p>
+			<p><input type="checkbox" id="split-by-assignment" value="1">&nbsp;By Assignment</p>
 		    </div>
 		    <div class="span8 main well">
 			<div id='loading-announcement'>

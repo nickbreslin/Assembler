@@ -96,7 +96,9 @@ textarea {
 }
 body {
   margin: 0;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /*font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  */
+   font-family: "Droid Sans", sans-serif;
   font-size: 13px;
   line-height: 18px;
   color: #333333;
@@ -275,8 +277,10 @@ a:hover {
 }
 p {
   margin: 0 0 9px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 13px;
+/*  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+*/
+ font-family: "Droid Sans", sans-serif;
+   font-size: 13px;
   line-height: 18px;
 }
 p small {
@@ -520,8 +524,10 @@ input,
 button,
 select,
 textarea {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 13px;
+ /* font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+ */
+  font-family: "Droid Sans", sans-serif;
+   font-size: 13px;
   font-weight: normal;
   line-height: 18px;
 }
@@ -2459,7 +2465,8 @@ button.btn.small, input[type="submit"].btn.small {
 }
 .navbar-search .search-query {
   padding: 4px 9px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+/*  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+*/  font-family: "Droid Sans", sans-serif;
   font-size: 13px;
   font-weight: normal;
   line-height: 1;
