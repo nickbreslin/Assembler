@@ -36,7 +36,7 @@ if(typeof Evo.Api === 'undefined')
                     
                     if(callback)
                     {
-                        callback(response.results)
+                        callback(response.data)
                     }
                 }
                 

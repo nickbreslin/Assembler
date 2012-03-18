@@ -1,6 +1,6 @@
 <?php
 define('ROOT_PATH', realpath(dirname(__FILE__) . '/../../').'/');
-require ROOT_PATH.'lib/boot/bootstrap.php';
+require_once ROOT_PATH.'lib/boot/bootstrap.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -10,8 +10,8 @@ if ($collection = getParam("admin"))
 {
 	if (!strcmp($collection,"dbupdate"))
 	{
-		require ROOT_PATH.'lib/core/dbupdate.php';
-		require ROOT_PATH.'lib/core/dbchange.php';
+		require_once ROOT_PATH.'lib/core/dbupdate.php';
+		require_once ROOT_PATH.'lib/core/dbchange.php';
 
 		$dbupdate = new Dbupdate();
 		$dbupdate->run();
@@ -25,8 +25,8 @@ else if ($collection = getParam("views"))
 {
 	if (!strcmp($collection,"dbupdate"))
 	{
-		require ROOT_PATH.'lib/core/dbupdate.php';
-		require ROOT_PATH.'lib/core/dbchange.php';
+		require_once ROOT_PATH.'lib/core/dbupdate.php';
+		require_once ROOT_PATH.'lib/core/dbchange.php';
 
 		$dbupdate = new Dbupdate();
 		$dbupdate->run();
@@ -40,7 +40,8 @@ else if ($collection = getParam("assembla"))
 {
 	if (!strcmp($collection,"query"))
 	{
-		require ROOT_PATH.'lib/rest/assembla.php';
+		require_once ROOT_PATH.'lib/core/curl.php';
+		require_once ROOT_PATH.'lib/rest/assembla.php';
 
         $status    = getParam('status',    'open');
         $timeframe = getParam('timeframe', 'this-week');
@@ -48,8 +49,9 @@ else if ($collection = getParam("assembla"))
 
         $assembla = new Assembla();
         $result   = $assembla->loadAllData($status, $timeframe, $group);
-
-        $response->setData($result);
+        $html     = $assembla->view($result, $group);
+        
+        $response->setData($html);
 	}
 	else
 	{

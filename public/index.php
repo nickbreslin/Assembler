@@ -74,15 +74,6 @@ $projects = $assembla->loadAllData($status, $timeframe, $group);
 		</div>&nbsp;
 				</div>
 		    <div class="span8 main well">
-			<div id='loading-announcement'>
-				<h2>Loading...</h2>
-				<div class="progress progress-success
-				     progress-striped active">
-				  <div class="bar"
-				       style="width: 100%;"></div>
-				</div>
-				<h3>Retrieving Projects, Milestones, Tickets and Users</h3>
-			</div>
 		      <!--Body content-->
 				<?php
 				foreach($projects as $project)

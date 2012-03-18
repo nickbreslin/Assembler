@@ -15,6 +15,69 @@ class Assembla extends Base
 		self::$base = "http://".config('assembla.username').":".config('assembla.password')."@www.assembla.com";
 	}
 	
+	public function view($projects, $group)
+	{
+	    $result = "";
+	    
+		foreach($projects as $project)
+		{
+			if($group != "user")
+			{
+				$result .= "<br><br><h3>".$project['name']."</h3>";
+			}
+
+			foreach($project['tickets'] as $userId => $tickets)
+			{
+				if(count($tickets) == 0)
+					continue;
+					
+				$username = "Unassigned";
+				foreach($project['users'] as $user)
+				{
+					if($user['id'] == $userId)
+					{
+						$username = $user['name'];
+						break;
+					}
+				}
+				
+				if($group != "project")
+				{
+					$result .= "<hr><h4>".$username."</h4>";
+				}
+				
+				foreach($tickets as $ticket)
+				{
+					$label = '';
+					if((int)$ticket['priority'] == 1)
+					{
+						$label = '-danger';
+					}
+					else if((int)$ticket['priority'] == 2)
+					{
+						$label = '-warning';
+					}
+					else if((int)$ticket['priority'] == 3)
+					{
+						$label = '-success';
+					}
+					else if((int)$ticket['priority'] == 4)
+					{
+						$label = '-info';
+					}
+					else if((int)$ticket['priority'] == 5)
+					{
+						$label = '-primary';
+					}
+				
+					$result .= "<i class='icon-search cubit btn$label' rel='tooltip' data-original-title=\"".$ticket['summary']."\"></i>";
+				}
+			}
+		}
+		
+		return $result;
+    }
+	
 	public function loadAllData($status, $timeframe, $group)
 	{
 		//Debug::info($status);

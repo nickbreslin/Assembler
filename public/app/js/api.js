@@ -18,6 +18,8 @@ if(typeof Evo.Api === 'undefined')
         var action     = 'query';
         var params     = '';
         
-        Evo.Api.call(type, collection, action, params);
+        Evo.Api.call(type, collection, action, params, [], function(data) {
+            $('.i-results').html(data);
+        });
     }
 }).apply(Evo.Api);

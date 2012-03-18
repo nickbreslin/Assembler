@@ -26,75 +26,56 @@
 	</head>
 	<body>		
 		<div class="container-fluid">
-		<h1>Assembler<span style='font-size:50%'> for Assembla</span></h1>
-		  <div class="row-fluid">
-			<div class="span2">
-		    <div class="sidebar well">
-		        <button class='test-button btn btn-primary'></button>
-		      <!--Sidebar content-->
-		<h3>Tickets</h3>
-			<ul class="nav nav-pills nav-stacked">
-			</ul>
-			<hr>
-			<h3>Timeframe</h3>
-			<ul class="nav nav-pills nav-stacked">
-			</ul>
-			<hr>
-			
-			<h3>Group By</h3>
-		    <ul class="nav nav-pills nav-stacked">
-			</ul>
-		</div>&nbsp;
-				</div>
-		    <div class="span8 main well">
-			<div id='loading-announcement'>
-				<h2>Loading...</h2>
-				<div class="progress progress-success
-				     progress-striped active">
-				  <div class="bar"
-				       style="width: 100%;"></div>
-				</div>
-				<h3>Retrieving Projects, Milestones, Tickets and Users</h3>
-			</div>
-		      <!--Body content-->
-		    </div>
+		    <h1>Assembler<span style='font-size:50%'> for Assembla</span></h1>
+		    
+		    <!-- Form Selection -->
+		    <div class="row-fluid">
+			    <div class="span2">
+		            <div class="sidebar well">
+		                <button class='test-button btn btn-primary'></button>
+		                <!--Sidebar content-->
+		                <h3>Tickets</h3>
+			            <ul class="nav nav-pills nav-stacked">
+			            </ul>
+			            <hr>
+			            <h3>Timeframe</h3>
+			            <ul class="nav nav-pills nav-stacked">
+			            </ul>
+			            <hr>
+			            <h3>Group By</h3>
+		                <ul class="nav nav-pills nav-stacked">
+			            </ul>
+		            </div>
+	            </div>
+
+	        <!--Body content-->
+		    <div class="span8 main well i-results"></div>
 		</div>
-		<doiv
-		</div>
-		
-		<!-- Github Banner -->
-		<a href="http://github.com/nickbreslin/Assembler"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/7afbc8b248c68eb468279e8c17986ad46549fb71/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"></a>
+	    
+	    <!-- Github Banner -->
+	    <a href="http://github.com/nickbreslin/Assembler"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/7afbc8b248c68eb468279e8c17986ad46549fb71/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"></a>
 
         <!-- Debug -->
         <div class="row-fluid">
             <div class="span10">
                 <button class='i-clear-debug-table btn btn-primary'></button>
                 <table class="table i-debug-table">
-                    <tbody>
-                    </tbody>
-		        </table>
-		    </div>
-		</div>
-		
-		
-		
-
-
-
-
+                    <tbody></tbody>
+	            </table>
+	        </div>
+	    </div>
 
         <div id="myModal" class="modal hide fade">
-          <div class="modal-header">
-            <h2>Loading...</h2>
-          </div>
-          <div class="modal-body">
-				<div class="progress progress-success
-				     progress-striped active">
-				  <div class="bar"
-				       style="width: 100%;"></div>
-				</div>
-				<h3>Retrieving Projects, Milestones, Tickets and Users</h3>
+            <div class="modal-header">
+                <h2>Loading...</h2>
+            </div>
+            <div class="modal-body">
+			    <div class="progress progress-success progress-striped active">
+                    <div class="bar" style="width: 100%;"></div>
+			    </div>
+                <h3>Retrieving Projects, Milestones, Tickets and Users</h3>
+            </div>
+            <div class="modal-footer">Please be patient, do not interrupt the loading...</div>
         </div>
-<div class="modal-footer">Please be patient, do not interrupt the loading...</div>
 	</body>
 </html>
