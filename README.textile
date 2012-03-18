@@ -29,4 +29,12 @@ h2. Releases & Changelog
 
 h3. v0.1 - Alpha Release
 
-* ...
+* Initial public release.
+* Search by Status (All, Open, Closed)
+* Search by Timeframe (All Time, This Week, Next Week)
+* Group By (User, Project, Both)
+* Loads search result async.
+ 
+h3. To Do
+
+* Caching Assembla data for a period of time, so new search queries don't go to Assembla each time.
