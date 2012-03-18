@@ -1,68 +1,95 @@
 <?php
-//requires debug class
-
-class Response
+//============================================================================
+// Response (class)
+//----------------------------------------------------------------------------
+//
+//
+//
+//============================================================================
+class Response extends Base
 {
-	public $code;
-	public $events;
-	public $params;
-	public $data;
+	private $_code;
+	private $_events;
+	private $_params;
+	private $_data;
 	
-	// Code | Name | Message
+	private $_validCodes = array(0,1);
 	
-    function __construct($autodetect = true)
+
+	//------------------------------------------------------------------------
+	//
+	//------------------------------------------------------------------------
+    function __construct()
     {
-		$this->code  = 1;
-		$this->events = array();
-		$this->params = array();
-		$this->data   = array();
+		parent::__construct();
+		$this->_code   = 1;
+		$this->_events = array();
+		$this->_params = array();
+		$this->_data   = array();
     }
 
+	//========================================================================
+	// setCode
+	//------------------------------------------------------------------------
+	// 
+	//
+	//
+	//========================================================================
 	public function setCode($code)
 	{
-		// 1 - Success
-		// 0 - Failure
-		if($this->code == 0) {
-			//once the response fails, nothing should re-approve it.
-			return;
+		$code = intval($code);
+		
+		if (!in_array($code, $this->_validCodes))
+		{
+			Debug::error("Invalid Code Value: ".$code);
+			return false;
 		}
-		$this->code = $code;
+
+		if ($this->_code == 0) {
+			Debug::warning("Response has already failed. Ignore new code: ".$code);
+			return false;
+		}
+		
+		$this->_code = $code;
+		
+		return true;
 	}
 
-	public function addEvent($debug)
+	public function trackEvent($event)
 	{
 		// Event_1, Event_2
-		$this->debug[] = $debug;
+		$this->_events[] = $event;
 	}
 
 	public function setParams($params)
 	{
-		// key -> value
-		// key -> value
-		$this->params = $params;
+		$this->_params = $params;
 	}
 
 	public function setData($data)
 	{
-		// different op
-		$this->data = $data;
+		$this->_data = $data;
 	}
 
 	public function encode()
 	{
-		$response['code']   = $this->code;
-		$response['events'] = array(
-			'data'  => $this->events,
-			'count' => count($this->events)
+		global $params;
+		
+		$result['code']   = $this->_code;
+		$result['events'] = array(
+			'data'  => $this->_events,
+			'count' => count($this->_events)
 		);
-		$response['params'] = $this->params;
-		$response['data']   = $this->data;
-		$response['debug']  = array(
+		$result['params'] = $params;
+		$result['data']   = $this->_data;
+		
+		// todo: if dev mode.
+		$result['debug']  = array(
 			'data'  => Debug::$messages,
 			'count' => count(Debug::$messages)
 		);
 		
-		$json = json_encode($response);
+		$json = json_encode($result);
 		
 		return $json;
 	}

@@ -10,12 +10,12 @@ if(typeof Evo.Api === 'undefined')
 
 (function()
 {
-    this.call = function(type, action, params, data, callback)
+    this.call = function(type, collection, action, params, data, callback)
     {    
         var url = "/api/index.php";
         //url     = url + '?signed_request=' + window.User.signed_request;
         
-        url = url + "?action="+action+params;
+        url = url + "?"+collection+"="+action+params;
         
         Evo.log("Api > Url: " + url);
         
@@ -30,13 +30,25 @@ if(typeof Evo.Api === 'undefined')
             {
                 Evo.log("Api > Call > ("+action+") Success", response);
                 
-                if(response.responseCode == 1)
+                if(response.code == 1)
                 {
                     Evo.log("Response Success");
                     
                     if(callback)
                     {
                         callback(response.results)
+                    }
+                }
+                
+                if(response.debug)
+                {
+                    if(response.debug.data)
+                    {
+                        for(var i in response.debug.data)
+                        {
+                            var entry = response.debug.data[i];
+                            Evo.appendToLog(entry.type, entry.message);
+                        }
                     }
                 }
             },

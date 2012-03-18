@@ -1,6 +1,6 @@
 <?php
 
-class Debug
+class Debug extends Base
 {   
 	static public $messages = array();
 	
@@ -14,6 +14,18 @@ class Debug
 		if(is_array($message))
 		{
 			$message = "<pre>".print_r($message, true)."</pre>";
+		}
+		
+		if(class_exists("Log"))
+		{
+			$r = 8 - strlen($type);
+			$spaces = "";
+			for($r; $r > 0; $r--)
+			{
+				$spaces .= " ";
+			}
+				
+			Log::error("[".strtoupper($type)."]$spaces".$message);
 		}
 		
 		self::$messages[] = array('type'=>$type, 'message'=>$message);
@@ -37,33 +49,5 @@ class Debug
 	static public function warning($message)
 	{
 		Debug::log('warning', $message);
-	}
-	
-	static public function display()
-	{
-		$html  = '
-		<div class="row-fluid">
-		<div class="span10">
-		<table class="table">
-		  <tbody>
-		';
-		foreach( Debug::$messages as $msg)
-		{
-			$html .='
-		    <tr class="'.($msg['type'] == "warning" ? "alert": "alert-".$msg['type'] ).'">
-		      <td><span class="label label-'.$msg['type'].'">'.$msg['type'].'</span></td>
-		      <td>'.$msg['message'].'</td>
-		    </tr>
-		';
-	}
-	$html .= '
-		  </tbody>
-		</table>
-		</div>
-		</div>
-		';
-		
-		
-		return $html;
 	}
 }

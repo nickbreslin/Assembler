@@ -1,6 +1,6 @@
 <?php
 
-class Assembla extends Abstract_Class
+class Assembla extends Base
 {	
 	private static $base = "";
 	

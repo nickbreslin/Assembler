@@ -1,6 +1,6 @@
 <?php
 
-class Database extends Abstract_Class
+class Database extends Base
 {    
     private $_mysql     = false;
 	private $_connected = false;
@@ -10,7 +10,6 @@ class Database extends Abstract_Class
     {
 		parent::__construct();
 		$this->_init();
-		$this->_connected = $this->_connect();
     }
 
 	function _destruct()
@@ -22,128 +21,70 @@ class Database extends Abstract_Class
 	{
 		global $config;
 		
-		if (!isset($config))
-		{
-			Debug::error("No Settings");
-			exit();
-		}
-		else
-		{
-			$this->_config = $config;
-		}
-	}
-	
-	public function debug()
-	{
-		Debug::info($this->_mysql);
-	}
-	
-	public function isConnected()
-	{
-		return $this->_connected;
+		$this->_connect($config);
 	}
     
-    private function _connect()
+    private function _connect($config)
     {
 		$this->_mysql = new mysqli(
-			 $this->_config['database.host']
-			,$this->_config['database.user']
-			,$this->_config['database.password']
-			,$this->_config['database.name']
+			 $config['database.host']
+			,$config['database.user']
+			,$config['database.password']
+			,$config['database.name']
 		);
 		
 		
-        if (!$this->_mysql || mysqli_connect_errno()) {
+        if (!$this->_mysql || mysqli_connect_errno())
+		{
 			Debug::error("No Connection. ".mysqli_connect_error());
             return false;
         }	
     
         return true;
     }
-
-	public function query($query)
-	{	
-		//echo "<br>".$query;
-		if ($result = $this->_query($query))
-		{
-			$data = array();
-			//echo "<br>1";
-			//echo print_r($result, true);
-			if (isset($result->num_rows) && $result->num_rows > 0)
-			{
-				//echo "<br>2A-";
-				//$data = array();
-				
-				while ($row = $result->fetch_array(MYSQLI_ASSOC))
-				{
-					//echo "<br>3A-";
-					$data[] = $row;
-				}
-				
-				return $data;
-			}
-			else
-			{
-				//echo "<br>2B-";
-				//$data = array();
-				while ($row = $result->fetch_array(MYSQLI_ASSOC))
-				{
-					//echo print_r($row, true);
-					//echo "<br>3B-";
-					$data[] = $row;
-					
-				}
-				//echo print_r($result->fetch_assoc(), true);
-			}
-			
-			return $data;
-		}
-		
-		return false;
-	}
-	
-	public function custom($query)
-	{	
-		return $result = $this->_query($query);
-	}
-
-	public function insert($query)
-	{	
-		if ($result = $this->_query($query))
-		{
-			if($this->_mysql->affected_rows)
-			{
-				return $this->_mysql->insert_id;
-			}
-		}
-		
-		return false;
-	}
-	
-	private function _query($query)
-	{
-		if(!$this->_connected)
-		{
-			return false;
-		}
-						
-		$result = $this->_mysql->query($query);
-		//print_r($result->fetch_object());
-		//exit();
-		if($result)
-		{
-			return $result;
-		}
-		else
-		{
-			Debug::error($this->_mysql->error);
-			return false;
-		}
-	}
 	
 	public function mysqlEscapeString($string)
 	{
-        $num = $this->_mysql->real_escape_string($string);
-        return $num;
+        $escapedString = $this->_mysql->real_escape_string($string);
+        return $escapedString;
     }
+
+	public function query($query)
+	{
+		if ($results = $this->_mysql->query($query) or Debug::warning($this->_mysql->error))
+		{			
+			if ($this->_mysql->affected_rows == 0)
+			{
+				//Debug::info("No Affected Rows");
+			}
+
+			if (isset($results->num_rows))
+			{
+				$response = array();
+				
+				while ($result = $results->fetch_assoc())
+				{
+					//Debug::info("Returning Data");
+					$response[] = $result;
+		        }
+		
+				return $response;
+			}
+			
+			if ($this->_mysql->affected_rows > 0)
+			{
+				if (isset($this->_mysql->insert_id))
+				{
+					//Debug::info("Returning Id");
+					return $this->_mysql->insert_id;
+				}
+			}
+			
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }

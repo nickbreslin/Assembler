@@ -1,6 +1,6 @@
 <?php
 //client URL
-class Curl extends Abstract_Class
+class Curl extends Base
 {	
     function __construct()
     {

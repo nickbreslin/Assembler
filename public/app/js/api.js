@@ -14,9 +14,10 @@ if(typeof Evo.Api === 'undefined')
         Evo.log("Api > Test");
         
         var type       = 'get';
-        var action     = '';
+        var collection = 'assembla';
+        var action     = 'query';
         var params     = '';
         
-        Evo.Api.call(type, action, params);
+        Evo.Api.call(type, collection, action, params);
     }
 }).apply(Evo.Api);

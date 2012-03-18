@@ -1,6 +1,6 @@
 <?php
 
-class Data extends Abstract_Class
+class Data extends Base
 {
 	protected $_db;
 	

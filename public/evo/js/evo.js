@@ -30,10 +30,20 @@ if (typeof Evo === 'undefined')
         Evo.appendToLog('warning', Array.prototype.slice.call(arguments));
 	}
 	
+    this.init = function ()
+    {
+        $('.i-clear-debug-table').click(function() {
+            Evo.log("clearing");
+            $('.i-debug-table tbody').empty();
+        });
+    }
+    	
 	this.appendToLog = function(type, message)
 	{
-	    trType = (type == "warning") ? "alert" : type;
+	    trType = (type == "warning") ? "alert" : 'alert-'+type;
 	    
-	    $('.debug-table tbody').append('<tr class='+trType+'><td><span class="label label-'+type+'">'+type+'</span></td><td>'+message+'</td></tr>');
+	    $('.i-debug-table tbody').prepend('<tr class='+trType+'><td><span class="label label-'+type+'">'+type+'</span></td><td>'+message+'</td></tr>');
     }
+    
+    
 }).apply(Evo);

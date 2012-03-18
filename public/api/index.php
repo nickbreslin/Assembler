@@ -36,6 +36,26 @@ else if ($collection = getParam("views"))
 		Debug::warning("Route: [views] : No Element");
 	}
 }
+else if ($collection = getParam("assembla"))
+{
+	if (!strcmp($collection,"query"))
+	{
+		require ROOT_PATH.'lib/rest/assembla.php';
+
+        $status    = getParam('status',    'open');
+        $timeframe = getParam('timeframe', 'this-week');
+        $group     = getParam('group',     'both');
+
+        $assembla = new Assembla();
+        $result   = $assembla->loadAllData($status, $timeframe, $group);
+
+        $response->setData($result);
+	}
+	else
+	{
+		Debug::warning("Route: [assembla] : No Element");
+	}
+}
 else
 {
 	Debug::warning("Route: No Collection");

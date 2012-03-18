@@ -1,6 +1,6 @@
 <?php
 
-class Log
+class Log extends Base
 {
 	private static $accessLog = "logs/access.log";
 	private static $errorLog  = "logs/error.log";
@@ -23,16 +23,16 @@ class Log
     {
 		$fh = fopen(ROOT_PATH . self::$accessLog, 'a');
 		fwrite($fh, $string."\n");
-		fwrite($fh, $string."\n");
 		fclose($fh);
     }
 
     static public function error($string)
     {
-		$fh = fopen(ROOT_PATH . self::$errorLog, 'a');
-		fwrite($fh, $string."\n");
-		fwrite($fh, $string."\n");
-		fclose($fh);
+		error_log($string);
+		
+		//$fh = fopen(ROOT_PATH . self::$errorLog, 'a');
+		//fwrite($fh, $string."\n");
+		//fclose($fh);
     }
 
 	static function test()

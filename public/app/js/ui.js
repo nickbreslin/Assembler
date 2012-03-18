@@ -19,5 +19,6 @@ if(typeof Evo.UI === 'undefined')
 }).apply(Evo.UI);
 
 $(function() {
+    Evo.init();
     Evo.UI.init();
 });
