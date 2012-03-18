@@ -126,9 +126,9 @@ class Assembla extends Base
 							
 			foreach($milestones as $milestone)
 			{
-				$dt = new DateTime($milestone['due-date']); 
-				$ts = $dt->getTimestamp();
-			
+				//$dt = new DateTime($milestone['due-date']); 
+				//$ts = $dt->getTimestamp();
+				$ts = strtotime($milestone['due-date']);
 				if(strtotime("last sunday $adjust") < $ts && strtotime("next sunday $adjust") > $ts)
 				{
 					$validMilestones[] = (int)$milestone['id'];

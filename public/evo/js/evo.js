@@ -32,6 +32,7 @@ if (typeof Evo === 'undefined')
 	
     this.init = function ()
     {
+        return;
         $('.i-clear-debug-table').click(function() {
             Evo.log("clearing");
             $('.i-debug-table tbody').empty();
@@ -40,6 +41,7 @@ if (typeof Evo === 'undefined')
     	
 	this.appendToLog = function(type, message)
 	{
+	    return;
 	    trType = (type == "warning") ? "alert" : 'alert-'+type;
 	    
 	    $('.i-debug-table tbody').prepend('<tr class='+trType+'><td><span class="label label-'+type+'">'+type+'</span></td><td>'+message+'</td></tr>');
