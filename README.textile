@@ -6,12 +6,27 @@ h3. Nick Breslin, Etiquette Studio
 
 E-Mail: "nickbreslin@gmail.com":mailto:nickbreslin@gmail.com
 Twitter: "@EtiquetteStudio":http://twitter.com/#!/EtiquetteStudio
-Web Site: "nickbreslin.com":http://www.nickbreslin.com
+Web Site: "etiquettestudio.com":http://www.etiquettestudio.com
 
 h2. Setup
 
 h3. Settings File
 
+<code>
+assembla.username = ASSEMBLA_USERNAME
+assembla.password = ASSEMBLA_PASSWORD
+</code>
+
 h3. Log File
 
+h2. License
+
+* Source under "MIT license":http://copyfree.org/licenses/mit/license.txt.
+* cupcake.ico (favicon), credited to "Patrizio ;archesan":http://www.favicon.cc/?action=icon_list&user_id=9258 from favicon.cc under Creative Commons license.
+* Third-party resources (jQuery, Bootstrap) include details for their own licenses.
+
 h2. Releases & Changelog
+
+h3. v0.1 - Alpha Release
+
+* ...
