@@ -2,6 +2,9 @@
 //client URL
 class Curl extends Base
 {	
+    
+    static $instance;
+    
     function __construct()
     {
 		parent::__construct();
@@ -84,15 +87,18 @@ class Curl extends Base
 			return false;
 		}
 		
-		$curl    = new self();
+		if(!self::$instance)
+		{
+		    self::$instance = new self();
+	    }
 		
 		if($xml)
 		{
-			$results = $curl->xml($url, $fields);
+			$results = self::$instance->xml($url, $fields);
 		}
 		else
 		{
-			$results = $curl->curl($url, $fields);
+			$results = self::$instance->curl($url, $fields);
 		}
 		
 		return $results;

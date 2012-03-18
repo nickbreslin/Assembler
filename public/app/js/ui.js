@@ -12,8 +12,13 @@ if(typeof Evo.UI === 'undefined')
 {   
     this.init = function() {
         $('.test-button').click(function(){
-           Evo.log("test1"); 
-           Evo.Api.test();
+            $('.i-loading-modal').modal({
+                keyboard : false
+            });
+            Evo.Api.test(function(data) {
+                $('.i-results').html(data);
+                $('.i-loading-modal').modal('hide');
+            });
         });
     }
 }).apply(Evo.UI);

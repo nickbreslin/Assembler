@@ -10,7 +10,7 @@ if(typeof Evo.Api === 'undefined')
 
 (function()
 {   
-    this.test = function() {
+    this.test = function(callback) {
         Evo.log("Api > Test");
         
         var type       = 'get';
@@ -18,8 +18,6 @@ if(typeof Evo.Api === 'undefined')
         var action     = 'query';
         var params     = '';
         
-        Evo.Api.call(type, collection, action, params, [], function(data) {
-            $('.i-results').html(data);
-        });
+        Evo.Api.call(type, collection, action, params, [], callback);
     }
 }).apply(Evo.Api);
