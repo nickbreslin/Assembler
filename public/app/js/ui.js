@@ -13,6 +13,7 @@ if(typeof Evo.UI === 'undefined')
     this.init = function() {
         $('.test-button').click(function(){
            Evo.log("test1"); 
+           Evo.Api.test();
         });
     }
 }).apply(Evo.UI);

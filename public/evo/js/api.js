@@ -10,12 +10,15 @@ if(typeof Evo.Api === 'undefined')
 
 (function()
 {
-    this.call = function(type, controller, action, params, data, callback)
+    this.call = function(type, action, params, data, callback)
     {    
-        var url = "api/index.php";
+        var url = "/api/index.php";
         //url     = url + '?signed_request=' + window.User.signed_request;
-        url = url + params;
+        
+        url = url + "?action="+action+params;
+        
         Evo.log("Api > Url: " + url);
+        
         $.ajax(
         {
             type:     type,

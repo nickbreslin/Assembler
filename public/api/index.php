@@ -1,33 +1,44 @@
 <?php
+define('ROOT_PATH', realpath(dirname(__FILE__) . '/../../').'/');
+require ROOT_PATH.'lib/boot/bootstrap.php';
 
-error_log("test");
-/*
-require $_SERVER['DOCUMENT_ROOT'] . 'lib/core/bootstrap.php';
+$method = $_SERVER['REQUEST_METHOD'];
 
-require $_SERVER['DOCUMENT_ROOT'] . 'lib/model/assembla.php';
+setParams(array('method' => $method));
 
-$assembla = new Assembla();
-$output = array();
-
-if(isset($_REQUEST['del']))
+if ($collection = getParam("admin"))
 {
-	$output = $assembla->deleteTicket($_REQUEST['del']);
+	if (!strcmp($collection,"dbupdate"))
+	{
+		require ROOT_PATH.'lib/core/dbupdate.php';
+		require ROOT_PATH.'lib/core/dbchange.php';
+
+		$dbupdate = new Dbupdate();
+		$dbupdate->run();
+	}
+	else
+	{
+		Debug::warning("Route: [admin] : No Element");
+	}
+}
+else if ($collection = getParam("views"))
+{
+	if (!strcmp($collection,"dbupdate"))
+	{
+		require ROOT_PATH.'lib/core/dbupdate.php';
+		require ROOT_PATH.'lib/core/dbchange.php';
+
+		$dbupdate = new Dbupdate();
+		$dbupdate->run();
+	}
+	else
+	{
+		Debug::warning("Route: [views] : No Element");
+	}
+}
+else
+{
+	Debug::warning("Route: No Collection");
 }
 
-if(isset($_REQUEST['get']))
-{
-	$output = $assembla->getTicket($_REQUEST['get']);
-}
-
-if(isset($_REQUEST['getall']))
-{
-	$output = $assembla->getAllTickets();
-}
-
-if(isset($_REQUEST['create']))
-{
-	$output = $assembla->createTicket();
-}
-
-
-echo "<pre>".print_r($output, true)."</pre>";
+echo $response->encode();

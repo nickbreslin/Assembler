@@ -5,6 +5,7 @@
 error_reporting(E_ALL ^ E_STRICT);
 date_default_timezone_set('UTC');
 
+
 ini_set('display_errors',1);
 ini_set('auto_detect_line_endings', true);
 ini_set('magic_quotes_gpc', false);
@@ -14,6 +15,12 @@ ini_set('magic_quotes_gpc', false);
 //----------------------------------------------------------------------------
 define('SETTINGS_FILE',  ROOT_PATH . 'config/settings.ini');
 define('IS_PRODUCTION',  ROOT_PATH . 'config/.production');
+
+//----------------------------------------------------------------------------
+// Base
+//----------------------------------------------------------------------------
+require ROOT_PATH . 'lib/core/base.php';
+
 
 //----------------------------------------------------------------------------
 // Logging
@@ -57,7 +64,6 @@ setParams($_REQUEST);
 
 if (!file_exists(SETTINGS_FILE))
 {
-	echo "no settings";
 	Debug::error("No Settings File Found");
 	exit();
 }
@@ -91,14 +97,10 @@ function fp()
 //----------------------------------------------------------------------------
 // Bootstrap
 //----------------------------------------------------------------------------
-require ROOT_PATH . 'lib/core/abstract.php';
-require ROOT_PATH . 'lib/core/curl.php';
 require ROOT_PATH . 'lib/core/data.php';
 require ROOT_PATH . 'lib/core/database.php';
 require ROOT_PATH . 'lib/core/response.php';
 
-
-require ROOT_PATH . 'lib/rest/assembla.php';
 
 $response = new Response();
 

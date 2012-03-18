@@ -28,7 +28,6 @@ if (typeof Evo === 'undefined')
         }
         
         Evo.appendToLog('warning', Array.prototype.slice.call(arguments));
-        
 	}
 	
 	this.appendToLog = function(type, message)
