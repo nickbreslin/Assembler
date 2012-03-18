@@ -96,9 +96,8 @@ textarea {
 }
 body {
   margin: 0;
-  /*font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  */
-   font-family: "Droid Sans", sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  
   font-size: 13px;
   line-height: 18px;
   color: #333333;
@@ -277,9 +276,8 @@ a:hover {
 }
 p {
   margin: 0 0 9px;
-/*  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-*/
- font-family: "Droid Sans", sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
    font-size: 13px;
   line-height: 18px;
 }
@@ -524,9 +522,8 @@ input,
 button,
 select,
 textarea {
- /* font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
- */
-  font-family: "Droid Sans", sans-serif;
+ font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+ 
    font-size: 13px;
   font-weight: normal;
   line-height: 18px;
@@ -2465,8 +2462,7 @@ button.btn.small, input[type="submit"].btn.small {
 }
 .navbar-search .search-query {
   padding: 4px 9px;
-/*  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-*/  font-family: "Droid Sans", sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 13px;
   font-weight: normal;
   line-height: 1;
@@ -2848,7 +2844,8 @@ button.btn.small, input[type="submit"].btn.small {
   display: block;
   visibility: visible;
   padding: 5px;
-  font-size: 11px;
+  font-size: 30px;
+ line-height: 1.25em;
   opacity: 0;
   filter: alpha(opacity=0);
 }

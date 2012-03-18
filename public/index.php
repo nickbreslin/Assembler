@@ -30,6 +30,7 @@ $projects = $assembla->loadAllData($status, $timeframe, $group);
 		<!--css-->
 		<link rel="stylesheet" href="/css/bootstrap.css" type="text/css" charset="utf-8"/>
 		<link rel="stylesheet" href="/css/bootstrap.responsive" type="text/css" charset="utf-8"/>
+
 		<!--js-->
 		<script type="text/javascript" src="/js/notifier.js"></script>
 		<script type="text/javascript" src="/js/bootstrap.js"></script>

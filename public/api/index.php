@@ -1,5 +1,7 @@
 <?php
 
+error_log("test");
+/*
 require $_SERVER['DOCUMENT_ROOT'] . 'lib/core/bootstrap.php';
 
 require $_SERVER['DOCUMENT_ROOT'] . 'lib/model/assembla.php';

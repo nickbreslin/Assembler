@@ -1,6 +1,6 @@
 h1. Assembler
 
-A unified dashboard for Assembla Spaces on an Ajax-PHP framework.
+A unified dashboard for Assembla Spaces on an Ajax-PHP framework (Evocatio).
 
 h3. Nick Breslin, Etiquette Studio
 
