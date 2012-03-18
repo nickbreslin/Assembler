@@ -3,7 +3,7 @@ define('ROOT_PATH', realpath(dirname(__FILE__) . '/../../').'/');
 require_once ROOT_PATH.'lib/boot/bootstrap.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
-
+Debug::info($method);
 setParams(array('method' => $method));
 
 if ($collection = getParam("admin"))
@@ -43,6 +43,7 @@ else if ($collection = getParam("assembla"))
 		require_once ROOT_PATH.'lib/core/curl.php';
 		require_once ROOT_PATH.'lib/rest/assembla.php';
 
+        Debug::info(print_r($_POST, true));
         $status    = getParam('status',    'open');
         $timeframe = getParam('timeframe', 'this-week');
         $group     = getParam('group',     'both');

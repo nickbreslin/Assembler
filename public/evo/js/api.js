@@ -18,7 +18,7 @@ if(typeof Evo.Api === 'undefined')
         url = url + "?"+collection+"="+action+params;
         
         Evo.log("Api > Url: " + url);
-        
+        Evo.log(data);
         $.ajax(
         {
             type:     type,

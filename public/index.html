@@ -32,19 +32,32 @@
 		    <div class="row-fluid">
 			    <div class="span2">
 		            <div class="sidebar well">
-		                <button class='test-button btn btn-primary'></button>
+		                
 		                <!--Sidebar content-->
-		                <h3>Tickets</h3>
-			            <ul class="nav nav-pills nav-stacked">
-			            </ul>
-			            <hr>
-			            <h3>Timeframe</h3>
-			            <ul class="nav nav-pills nav-stacked">
-			            </ul>
-			            <hr>
-			            <h3>Group By</h3>
-		                <ul class="nav nav-pills nav-stacked">
-			            </ul>
+                		<h3>Status</h3>
+                        <select class='span12 i-form-status btn-success'>
+                            <option value='all'>All</option>
+                            <option value='open' selected>Open</option>
+                            <option value='closed'>Closed</option>
+                        </select>
+                        <hr>
+            			<h3>Timeframe</h3>
+                        <select class='span12 i-form-timeframe btn-info'>
+                            <option value='all-time'>All Time</option>
+                            <option value='this-week' selected>This Week</option>
+                            <option value='next-week'>Next Week</option>
+                        </select>
+                        <hr>
+            			<h3>Group By</h3>
+                        <select class='span12 i-form-group btn-warning'>
+                            <option value='user' selected>User</option>
+                            <option value='project'>Project</option>
+                            <option value='both'>Both</option>
+                        </select>
+                        <hr>
+                        <div class="row-fluid">
+                            <button class='test-button btn btn-primary btn-large span12 unshift'>Search</button>
+                        </div>
 		            </div>
 	            </div>
 
@@ -58,7 +71,7 @@
         <!-- Debug -->
         <div class="row-fluid">
             <div class="span10">
-                <button class='i-clear-debug-table btn btn-primary'></button>
+                <button class='i-clear-debug-table btn btn-primary'>Clear Log</button>
                 <table class="table i-debug-table">
                     <tbody></tbody>
 	            </table>

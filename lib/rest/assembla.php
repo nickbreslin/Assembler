@@ -80,7 +80,7 @@ class Assembla extends Base
 	
 	public function loadAllData($status, $timeframe, $group)
 	{
-		//Debug::info($status);
+		Debug::info($status.":".$timeframe.":".$group);
 	//	Debug::info($timeframe);
 		
 		$spaces = $this->getSpaces();
@@ -91,6 +91,7 @@ class Assembla extends Base
 		$milestones = array();
 		$validMilestones = array();
 		$spaceholder = "";
+		$projectTickets = array();
 		foreach($spaces as $space)
 		{			
 			if($status == "all")
