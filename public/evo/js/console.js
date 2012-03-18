@@ -26,5 +26,15 @@ if (typeof Evo === 'undefined')
         {
             console.log(Array.prototype.slice.call(arguments));
         }
-	}    
+        
+        Evo.appendToLog('warning', Array.prototype.slice.call(arguments));
+        
+	}
+	
+	this.appendToLog = function(type, message)
+	{
+	    trType = (type == "warning") ? "alert" : type;
+	    
+	    $('.debug-table tbody').append('<tr class='+trType+'><td><span class="label label-'+type+'">'+type+'</span></td><td>'+message+'</td></tr>');
+    }
 }).apply(Evo);
