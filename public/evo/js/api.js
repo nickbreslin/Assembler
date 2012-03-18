@@ -12,7 +12,7 @@ if(typeof Evo.Api === 'undefined')
 {
     this.call = function(type, collection, action, params, data, callback)
     {    
-        var url = "/api/index.php";
+        var url = "api/index.php";
         //url     = url + '?signed_request=' + window.User.signed_request;
         
         url = url + "?"+collection+"="+action+params;

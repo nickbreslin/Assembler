@@ -2844,8 +2844,7 @@ button.btn.small, input[type="submit"].btn.small {
   display: block;
   visibility: visible;
   padding: 5px;
-  font-size: 30px;
- line-height: 1.25em;
+  font-size: 11px;
   opacity: 0;
   filter: alpha(opacity=0);
 }

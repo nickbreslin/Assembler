@@ -20,6 +20,10 @@ if(typeof Evo.UI === 'undefined')
                 $('.i-loading-modal').modal('hide');
             });
         });
+        
+        $('.main').tooltip({
+            selector: "i[rel=tooltip]"
+        })
     }
 }).apply(Evo.UI);
 

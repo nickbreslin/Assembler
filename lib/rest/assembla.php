@@ -111,7 +111,7 @@ class Assembla extends Base
 			$users      = array_merge($users, $this->getUsers($space['id']));
 			$tickets    = array_merge($tickets, $projectTickets);
 			
-			$project['name'] = $space['name'];
+			$project['name'] = str_replace('"', "'", $space['name']);
 			$project['tickets'] = array();
 			$project['users'] = $users;
 			
@@ -238,7 +238,7 @@ class Assembla extends Base
 		{
 			$data          = array();
 			$data['id']    = $result->{'id'};
-			$data['name']  = $result->{'name'};
+			$data['name']  = str_replace('"', "'", $result->{'name'});
 			$data['space'] = $result->{'wiki-name'};
 			
 			$return[] = $data;
@@ -273,7 +273,7 @@ class Assembla extends Base
 			$data['milestone-id']  = $result->{'milestone-id'};
 			$data['working-hours'] = $result->{'working-hours'};
 			$data['updated-at']    = $result->{'updated-at'};
-			$data['summary']    = $result->{'summary'};
+			$data['summary']    = str_replace('"', "'", $result->{'summary'});
 			$data['space-id']    = $result->{'space-id'};
 			$return[] = $data;
 		}
@@ -305,7 +305,7 @@ class Assembla extends Base
 			$data['milestone-id']  = $result->{'milestone-id'};
 			$data['working-hours'] = $result->{'working-hours'};
 			$data['updated-at']    = $result->{'updated-at'};
-			$data['summary']    = $result->{'summary'};
+			$data['summary']    = str_replace('"', "'", $result->{'summary'});
 			$data['space-id']    = $result->{'space-id'};
 			
 
@@ -340,7 +340,7 @@ class Assembla extends Base
 			$data['milestone-id']  = $result->{'milestone-id'};
 			$data['working-hours'] = $result->{'working-hours'};
 			$data['updated-at']    = $result->{'updated-at'};
-			$data['summary']    = $result->{'summary'};
+			$data['summary']    = str_replace('"', "'", $result->{'summary'});
 			$data['space-id']    = $result->{'space-id'};
 			
 
