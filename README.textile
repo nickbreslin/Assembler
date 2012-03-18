@@ -12,10 +12,10 @@ h2. Setup
 
 h3. Settings File
 
-<code>
+<pre>
 assembla.username = ASSEMBLA_USERNAME
 assembla.password = ASSEMBLA_PASSWORD
-</code>
+</pre>
 
 h3. Log File
 
