@@ -17,14 +17,12 @@ h3. Settings File
 Copy /config/settings.txt to /config/settings.ini. This settings file is ignored by git and will not be committed back into the project.
 
 Enter your Assembla username and password to be used when querying Assembla for results.
-<pre>
-assembla.username = ASSEMBLA_USERNAME
+<pre>assembla.username = ASSEMBLA_USERNAME
 assembla.password = ASSEMBLA_PASSWORD
 </pre>
 
 If you have APC installed, you can modify the cache expiry for apc. It's default is 600 seconds (10 minutes).
-<pre>
-apc.expiry =
+<pre>apc.expiry = 600
 </pre>
 
 
