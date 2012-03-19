@@ -203,27 +203,32 @@ class Assembla extends Base
 	
 	public function fetchXML($url)
 	{
-	    $expiry = apc_fetch('expiry'); 
-	    if(!$expiry || $expiry < time())
-	    {
-	        Debug::info("Clearing Cache");
-	        apc_clear_cache();
-	        apc_clear_cache('user');
-	        apc_store('expiry', time() + 10);
+		if(function_exists('apc_fetch'))
+        {
+    	    $expiry = apc_fetch('expiry'); 
+    	    if(!$expiry || $expiry < time())
+    	    {
+    	        apc_clear_cache();
+    	        apc_clear_cache('user');
+    	        apc_store('expiry', time() + config('apc.expiry'));
+            }
+        
+        
+    	    if(apc_exists($url))
+    	    {
+    		    $results = apc_fetch($url, $results);
+    		}
+    		else
+    		{
+    		    $results = Curl::fetch($url, true);    
+    		    apc_store($url, $results);
+    	    }
+        }
+        else
+        {
+            $results = Curl::fetch($url, true); 
         }
         
-        
-	    if(apc_exists($url))
-	    {
-	        Debug::info("APC");
-		    $results = apc_fetch($url, $results);
-		}
-		else
-		{
-		    Debug::info("No APC");
-		    $results = Curl::fetch($url, true);    
-		    apc_store($url, $results);
-	    }
 		$string = simplexml_load_string($results);
 		
 		if ($string===FALSE)
@@ -446,65 +451,5 @@ class Assembla extends Base
 		}
 
 		return $return;
-	}		
-	/*
-	
-	
-	
-	public function createTicket()
-	{
-		$url = "http://".config('assembla.username').":".config('assembla.password')."@www.assembla.com/spaces/".config('assembla.space')."/tickets/";
-		echo $url;
-
-		$fields['ticket[summary]']     = "test summary";
-		$fields['ticket[status]']      = 0;
-		$fields['ticket[priority]']    = 5;
-		$fields['ticket[description]'] = "moo moo moo";
-		$fields['[custom-fields]'] = array(
-			"a" => "b");
-		
-		echo $this->_curl($url, $fields);
 	}
-	
-	public function getTicket($ticketId)
-	{
-		$cmd = 'curl -i -X GET -H "Accept: application/xml" http://'.config('assembla.username').":".config('assembla.password').'@www.assembla.com/spaces/'.config('assembla.space').'/tickets/'.$ticketId;
-		exec($cmd, $output);
-		
-		return $output;
-	}
-	
-	public function getAllTickets()
-	{
-		$ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL,"http://".config('assembla.username').":".config('assembla.password')."@www.assembla.com/spaces/".config('assembla.space')."/tickets/");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER,0);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, Array("Accept: application/xml")); 
-		curl_setopt($ci, CURLOPT_HEADER,     true);
-	    
-        $retValue = curl_exec($ch);  
-		$xml = simplexml_load_string($retValue);
-
-        curl_close($ch);
-        
-		foreach($xml->ticket as $ticket){
-		        echo $ticket->number . "\n";
-		$this->deleteTicket($ticket->number);
-		}
-		echo "=============<br>";
-		echo "<pre>".print_r($xml, true)."</pre>";
-        
-		return "";
-	}
-	
-	public function deleteTicket($ticketId)
-	{
-		$cmd = 'curl -i -X DELETE -H "Accept: application/xml" http://'.config('assembla.username').":".config('assembla.password').'@www.assembla.com/spaces/'.config('assembla.space').'/tickets/'.$ticketId;
-		exec($cmd, $output);
-		
-		return $output;
-	}	
-	*/
 }
