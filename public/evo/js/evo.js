@@ -32,7 +32,6 @@ if (typeof Evo === 'undefined')
 	
     this.init = function ()
     {
-        return;
         $('.i-clear-debug-table').click(function() {
             Evo.log("clearing");
             $('.i-debug-table tbody').empty();

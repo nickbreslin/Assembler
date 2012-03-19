@@ -203,8 +203,27 @@ class Assembla extends Base
 	
 	public function fetchXML($url)
 	{
-		$results = Curl::fetch($url, true);
-		
+	    $expiry = apc_fetch('expiry'); 
+	    if(!$expiry || $expiry < time())
+	    {
+	        Debug::info("Clearing Cache");
+	        apc_clear_cache();
+	        apc_clear_cache('user');
+	        apc_store('expiry', time() + 10);
+        }
+        
+        
+	    if(apc_exists($url))
+	    {
+	        Debug::info("APC");
+		    $results = apc_fetch($url, $results);
+		}
+		else
+		{
+		    Debug::info("No APC");
+		    $results = Curl::fetch($url, true);    
+		    apc_store($url, $results);
+	    }
 		$string = simplexml_load_string($results);
 		
 		if ($string===FALSE)
