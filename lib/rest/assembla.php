@@ -69,9 +69,12 @@ class Assembla extends Base
 					{
 						$label = '-primary';
 					}
-				
+                                        
+                                        $result .= "<a href='https://www.assembla.com/spaces/".$project['space']."/tickets/".$ticket['number']."' target='_blank'>";
 					$result .= "<i class='icon-search cubit btn$label' rel='tooltip' data-original-title=\"".$ticket['summary']."\"></i>";
-				}
+                                        $result .= "</a>";
+                                        
+                                }
 			}
 		}
 		
@@ -112,6 +115,7 @@ class Assembla extends Base
 			$tickets    = array_merge($tickets, $projectTickets);
 			
 			$project['name'] = str_replace('"', "'", $space['name']);
+                        $project['space'] = $space['space'];
 			$project['tickets'] = array();
 			$project['users'] = $users;
 			
@@ -203,35 +207,39 @@ class Assembla extends Base
 	
 	public function fetchXML($url)
 	{
-		if(function_exists('apc_fetch'))
-        {
-    	    $expiry = apc_fetch('expiry'); 
-    	    if(!$expiry || $expiry < time())
-    	    {
-    	        apc_clear_cache();
-    	        apc_clear_cache('user');
-    	        apc_store('expiry', time() + config('apc.expiry'));
-            }
+                            
+  
+            if(function_exists('apc_fetch'))
+            {
+                $expiry = apc_fetch('expiry'); 
+                
+                if(!$expiry || $expiry < time())
+                {
+                    apc_clear_cache();
+                    apc_clear_cache('user');
+                    apc_store('expiry', time() + config('apc.expiry'));
+                }
         
         
-    	    if(apc_exists($url))
-    	    {
+                if(apc_fetch($url))
+                {
     		    $results = apc_fetch($url, $results);
     		}
     		else
     		{
     		    $results = Curl::fetch($url, true);    
     		    apc_store($url, $results);
-    	    }
-        }
-        else
-        {
-            $results = Curl::fetch($url, true); 
-        }
+                }
+            }
+            
+            else
+            {
+                $results = Curl::fetch($url, true); 
+            }
         
-		$string = simplexml_load_string($results);
+            $string = simplexml_load_string($results);
 		
-		if ($string===FALSE)
+            if ($string===FALSE)
 		{
 			Debug::error("Not XML");
 			return false;
