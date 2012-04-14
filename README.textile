@@ -38,6 +38,10 @@ h2. License
 
 h2. Releases & Changelog
 
+h3. v0.3 - Links Release
+
+* Ticket icon now links to the related ticket on Assembla.
+
 h3. v0.2 - APC Release
 
 * Optional APC Caching (if installed) of curl calls to Assembla.
